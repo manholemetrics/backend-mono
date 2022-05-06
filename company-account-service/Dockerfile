@@ -22,6 +22,5 @@ RUN apt-get update && \
 
 RUN chmod +x entrypoint.sh
 RUN chmod +x /scripts/setup
-RUN chmod +x /app/api/schemas/setup
 
 CMD [ "./entrypoint.sh" ]

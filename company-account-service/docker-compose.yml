@@ -6,3 +6,4 @@ services:
       - "8000:8080"
     environment:
       ENV: DEV
+      database_url : sqlite:///test.sqlite

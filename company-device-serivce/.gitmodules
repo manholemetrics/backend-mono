@@ -1,3 +1,0 @@
-[submodule "app/api/device_mongo_models"]
-	path = app/api/device_mongo_models
-	url = https://github.com/manholemetrics/device_mongo_models.git

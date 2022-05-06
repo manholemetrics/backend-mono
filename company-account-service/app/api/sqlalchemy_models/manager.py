@@ -1,53 +1,45 @@
 from app.api.sqlalchemy_models.models import SQLCompany, SQLAccount, SQLPermissions
 from app.api.sqlalchemy_models.db import engine
+from sqlalchemy.orm import sessionmaker 
 
-def get_SQLCompany(company_id : str) -> SQLCompany:
-    with Session(engine) as session:
-        company = session.query(SQLCompany).filter_by(id = company_id).first()
-    return company
+Session = sessionmaker(bind=engine)
 
-def save_company(company : SQLCompany):
-    with Session(engine) as session:
-        session.add(company)
-        session.commit()
+class SQLAccountManger:
 
-def get_SQLAccount(account_id : str, company_id : str) -> SQLAccount:
-    with Session(engine) as session:
-        company = session.query(SQLAccount).filter_by(id = account_id, company_id = company_id).first()
-    return company
+    @staticmethod
+    async def get_SQLAccount(account_id : int, company_id : int) -> SQLAccount:
+        async with Session(engine) as session:
+            company = await session.query(SQLAccount).filter_by(id = account_id, company_id = company_id).first()
+        return company
 
+    @staticmethod
+    async def get_SQLAccount_with_email(email : int) -> SQLAccount:
+        async with Session(engine) as session:
+            company = await session.query(SQLAccount).filter_by(email = email).first()
+        return company
 
-def get_SQLAccount_with_email(email : str) -> SQLAccount:
-    with Session(engine) as session:
-        company = session.query(SQLAccount).filter_by(email = email).first()
-    return company
+    @staticmethod
+    async def save_SQLAccount(account : SQLAccount):
+        async with Session(engine) as session:
+            session.add(account)
+            await session.commit()
 
+    @staticmethod
+    async def delete_SQLAccount(account : SQLAccount):
+        async with Session(engine) as session:
+            session.delete(account)
+            await session.commit()
 
-def save_SQLAccount(account : SQLAccount):
-    with Session(engine) as session:
-        session.add(account)
-        session.commit()
+class SQLCompanyManager:
 
-def delete_SQLAccount(account : SQLAccount):
-    with Session(engine) as session:
-       
-        session.delete(account)
+    @staticmethod
+    async def get_SQLCompany(company_id : int) -> SQLCompany:
+        async with Session(engine) as session:
+            company = await session.query(SQLCompany).filter_by(id = company_id).first()
+        return company
 
-        session.commit()
-
-
-class SQLCompanyManager():
-
-    def __init__(self, sqlCompany : SQLCompany) -> 'SQLCompanyManager':
-        self.sqlCompany = sqlCompany
-        return self
-
-    @static
-    def query_id(self, company_id : str) -> 'SQLCompanyManager':
-        with Session(engine) as session:
-            company = session.query(SQLCompany).filter_by(id = tokenData.company_id).first()
-            self.sqlCompany = company
-        return self
-
-    def get_sqlcompany(self) -> SQLCompany:
-        return self.sqlCompany
+    @staticmethod
+    async def save_SQLCompany(company : SQLCompany):
+        async with Session(engine) as session:
+            session.add(company)
+            await session.commit()

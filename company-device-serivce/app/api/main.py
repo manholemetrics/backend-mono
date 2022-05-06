@@ -31,6 +31,15 @@ app.add_middleware(
 
 connect(host = environmentSettings.database_url)
 
+@app.on_event("startup")
+async def app_init():
+
+   client = motor.motor_asyncio.AsyncIOMotorClient(Settings().mongodb_url)
+
+   init_beanie(client.get_default_database(), document_models=[Cocktail])
+
+   app.include_router(cocktail_router, prefix="/v1")
+
 # broker = Broker(brokerConfig.url)
 # broker.create_all()
 # broker.run()

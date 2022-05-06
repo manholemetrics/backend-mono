@@ -6,6 +6,7 @@ COPY ./gunicorn.config.py /gunicorn.config.py
 COPY ./requirements.txt /requirements.txt
 COPY ./scripts /scripts
 COPY ./ca-certificate.crt /ca-certificate.crt
+COPY ../schemas/device_mongo_models /device_mongo_models
 
 RUN apt-get update && \
     apt-get install -y \

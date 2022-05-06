@@ -1,4 +1,4 @@
-from app.api.models.models.account_models import Permissions
+from app.api.models.account_models import Permissions
 from app.api.sqlalchemy_models.models import SQLPermissions
 
 def sqlpermissions_to_permissions(sqlpermission : Permissions) -> Permissions:

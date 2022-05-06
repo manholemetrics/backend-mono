@@ -1,7 +1,7 @@
 from app.api.authentication.authentication import Permissions
 from app.api.main import app
-from app.api.models.models.account_models import Account
-from app.api.services.handlers.account_handler import create_account
+from app.api.models.account_models import Account
+from app.api.services.account_handler import AccountHandler
 from app.api.sqlalchemy_models.models import SQLCompany
 from app.api.sqlalchemy_models.db import session
 
@@ -22,5 +22,5 @@ async def get_create_user():
     permission.manage_accounts  = True
     permission.view_device_data = True
     account.permission = permission
-    create_account(account)
+    AccountHandler.create_account(account)
     return

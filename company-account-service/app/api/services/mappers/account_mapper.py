@@ -1,4 +1,4 @@
-from app.api.models.models.account_models import Account, AccountInfo
+from app.api.models.account_models import Account, AccountInfo
 from app.api.sqlalchemy_models.models import SQLAccount
 from app.api.services.mappers.permission_mapper import sqlpermissions_to_permissions, permissions_to_sqlpermissions
 

@@ -1,9 +1,6 @@
 from fastapi import FastAPI
 from app.api.configs.configs import Config, environmentSettings
-
 from starlette.middleware.cors import CORSMiddleware
-# from app.api.sqlalchemy_models.db import session
-
 
 app = FastAPI(    
     title=Config.application_name
@@ -26,7 +23,6 @@ from app.api.routes.account_routes import *
 from app.api.routes.authentication_routes import *
 if environmentSettings.ENV == "DEV": 
     from app.api.routes.test_routes import *
-
 
 # broker = Broker(brokerConfig.url)
 # broker.create_all()
