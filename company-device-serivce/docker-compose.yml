@@ -1,0 +1,12 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  company-device-service:
+    build : .
+    ports:
+      - "8001:8080"
+    environment:
+      ENV: DEV
+  mongo:
+    image : mongo:latest
+  rabbit:
+    image : rabbitmq:3

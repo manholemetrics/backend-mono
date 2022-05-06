@@ -1,0 +1,40 @@
+#!/bin/bash
+service_name="microservicetemplate"
+source ./env/bin/activate
+start_containers(){
+    sudo docker run -it --name ${service_name}-rabbitmq-local -p 5672:5672 -p 15672:15672 -p 1883:1883 -p 15675:15675 -d rabbitmq:3-management
+    sudo docker run --name ${service_name}-mongo-container -p 27017:27017 -d mongo:latest
+}
+
+remove_containers(){
+    sudo docker stop ${service_name}-rabbitmq-local 2> /dev/null
+    sudo docker rm --volumes ${service_name}-rabbitmq-local 2> /dev/null
+    sudo docker stop ${service_name}-mongo-container 2> /dev/null
+    sudo docker rm --volumes ${service_name}-mongo-container 2> /dev/null
+}
+
+
+echo "----------------------"
+echo "Exporting Variables"
+#Application variables 
+export JWT_SECRET=secret
+
+
+echo "----------------------"
+echo "Starting Containers"
+#Ensure containers aren't running
+remove_containers
+#Start Containers
+start_containers
+
+echo "----------------------"
+echo "Starting Service"
+#uncomment below if using fast api
+uvicorn app.api.main:app --reload 
+
+#python3 app/api/main.py
+
+
+echo "----------------------"
+echo "Stopping Containers"
+remove_containers

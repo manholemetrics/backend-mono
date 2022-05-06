@@ -1,0 +1,10 @@
+{
+    "$id":"DeviceService/Queues/UpdateDeviceInfo",
+    "title": "Update_Device_Info",
+    "description": "Request from device-service to compnay-service to update the device information",
+    "type":"object",
+    "properties":{
+        "device_id":{"type":"integer"},
+        "min_distance":{"type":"integer"}
+    }
+}

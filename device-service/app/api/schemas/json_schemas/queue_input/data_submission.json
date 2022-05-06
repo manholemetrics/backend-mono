@@ -1,0 +1,19 @@
+{
+    "$id":"DeviceService/Queues/DataSubmission",
+    "title": "Data_Submission",
+    "description": "Request from a device to submit new data",
+    "type":"object",
+    "properties":{
+        "device_id":{"type":"integer"},
+        "data_entries":{
+            "type":"array",
+            "items":{
+                "type":"object",
+                "properties":{
+                    "time":{"type":"integer"},
+                    "distance":{"type":"integer"}
+                }
+            }
+        }
+    }
+}
