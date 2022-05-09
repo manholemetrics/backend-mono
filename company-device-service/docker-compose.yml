@@ -1,0 +1,16 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  company-device-service:
+
+    build : 
+      context: ..
+      dockerfile: company-device-service/Dockerfile
+    ports:
+      - "8001:8080"
+    environment:
+      ENV: DEV
+      mongo_database_url : mongodb://localhost:27017/
+  mongo:
+    image : mongo:latest
+  rabbit:
+    image : rabbitmq:3

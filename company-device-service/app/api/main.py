@@ -12,6 +12,7 @@ app = FastAPI(
 )
 
 from app.api.routes.device_routes import *
+from app.api.routes.device_registration_routes import *
 if environmentSettings.ENV == "DEV":
     from app.api.routes.test_routes import *
 
@@ -34,3 +35,8 @@ app.add_middleware(
 async def app_init():
    client = motor.motor_asyncio.AsyncIOMotorClient(environmentSettings.mongo_database_url)
    await init_beanie(database=client.db_name, document_models=[MongoDevice])
+
+
+# broker = Broker(brokerConfig.url)
+# broker.create_all()
+# broker.run()

@@ -10,8 +10,7 @@ class EnvironmentSettings(BaseSettings):
     ENV : str = ""
 
 environmentSettings = EnvironmentSettings()
-
+print(environmentSettings.database_url)
 class Config:
-    application_name : str = "device-service"
-
-config = Config()
+    application_name : str = "company-device-service"
+    version : str = "0.0.1"

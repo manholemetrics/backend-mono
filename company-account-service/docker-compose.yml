@@ -1,7 +1,9 @@
 version: "3.9"  # optional since v1.27.0
 services:
   company-account-service:
-    build : .
+    build :  
+      context: ..
+      dockerfile: company-account-service/Dockerfile
     ports:
       - "8000:8080"
     environment:

@@ -29,15 +29,17 @@ class GeoJson2DPoint(BaseModel):
     coordinates: tuple[float, float]
 
 class MongoDeviceDataEntry(BaseModel):
-    _id : int
     time_s : int
     distance_mm : int
 
 class MongoDevice(Document):
-    _id : str
+    class DocumentMeta:
+      collection_name = "mongo-devices"
     data : list[MongoDeviceDataEntry]
     company_id : str
     creation_date : int
     location : GeoJson2DPoint
     warning_level : int
     warning_level_height_mm : int
+
+MongoDevice.update_forward_refs()
