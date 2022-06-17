@@ -9,16 +9,20 @@ from app.api.services.device_handler import DeviceHandler
 
 @app.get('/devices', response_model=Devices, tags=["Device Info"])
 async def get_devices(device_filter : DeviceSearchFilter = Depends(), tokenData : TokenData = Depends(token_authentication)) -> Devices:
+    print('get devices')
     '''Request a list of Devices, can use filters such as nearest to a coordinate or at a certain warning level, requires view_devices permission'''
     validate_token(tokenData.permission.view_devices, tokenData)
-    return DeviceHandler.get_devices(device_filter, tokenData.company_id)
+    print('validateed token')
+    print(tokenData.company_id)
+    devices = await DeviceHandler.get_devices(device_filter, tokenData.company_id)
+    return devices
 
 @app.get('/device', response_model=DeviceData, tags=["Device Info"])
-async def get_device(device_id : str, measurement_start_index : int = 0, measurement_end_index : int = 1000,
+async def get_device(device_id : str, measurement_period_type : str,
     tokenData : TokenData = Depends(token_authentication)) -> DeviceData:
     '''Request a specific Device, requires view_device_data permission'''
     validate_token(tokenData.permission.view_device_data, tokenData)
-    return DeviceHandler(tokenData.company_id, device_id).get_device_data()
+    return DeviceHandler(tokenData.company_id, device_id).get_device_data(measurement_period_type)
 
 @app.put('/device', response_model=DeviceInfo, tags=["Device Info"])
 async def put_device(device : Device = Body(...), tokenData : TokenData = Depends(token_authentication)) -> DeviceInfo:

@@ -14,12 +14,14 @@ class Device(BaseModel):
     device_id : str
     latitude : float
     longitude : float 
-    warning_level_height : int
+    warning_level_height_mm : int
 
 class DeviceInfo(Device):
     creation_date : int = Field(description="creation date in unix time seconds")
     warning_level : str
-    number_measurements: int = None#Field(description="the total number of measurements this device has", )
+    comments : list[str] = []
+    pinned : bool
+    installation_comment : str
 
 class Measurement(BaseModel):
     time_s : str = Field(description="unix time in seconds of a measurement")

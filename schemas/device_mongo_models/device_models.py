@@ -19,14 +19,14 @@
 # class Company(Document):
 #     oid = StringField(required=True, primary_key=True)
     
-from typing import Optional
+from typing import Optional, Tuple
 from pydantic import BaseModel
 from beanie import Document, Indexed, init_beanie
 import asyncio, motor
 
 class GeoJson2DPoint(BaseModel):
     type: str = "Point"
-    coordinates: tuple[float, float]
+    coordinates: Tuple[float, float]
 
 class MongoDeviceDataEntry(BaseModel):
     time_s : int
@@ -36,10 +36,21 @@ class MongoDevice(Document):
     class DocumentMeta:
       collection_name = "mongo-devices"
     data : list[MongoDeviceDataEntry]
-    company_id : str
+    past_day_data : list[MongoDeviceDataEntry]
+    past_week_data : list[MongoDeviceDataEntry]
+    past_month_data : list[MongoDeviceDataEntry]
+    past_year_data : list[MongoDeviceDataEntry]
+    company_id : int
     creation_date : int
     location : GeoJson2DPoint
     warning_level : int
     warning_level_height_mm : int
+    # any comments made at the point of installation
+    installation_comment : str = ''
+    # comments made on the device
+    comments : list[str]
+    pinned : bool = False
+    
+    
 
 MongoDevice.update_forward_refs()

@@ -5,7 +5,7 @@ from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Boolean, Integer, String
 
 Base = declarative_base()
-metadata = Base.metadata
+# metadata = Base.metadata
 
 class SQLCompany(Base):
     __tablename__ = 'sqlcompanies'

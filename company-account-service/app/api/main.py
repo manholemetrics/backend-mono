@@ -6,9 +6,9 @@ app = FastAPI(
     title=Config.application_name
 )
 
-origins = [
-    "https://dashboard-deploy-h3gpr.ondigitalocean.app/"
-]
+# origins = [
+#     "https://dashboard-deploy-h3gpr.ondigitalocean.app/"
+# ]
 
 
 app.add_middleware(
@@ -24,10 +24,17 @@ from app.api.routes.authentication_routes import *
 if environmentSettings.ENV == "DEV": 
     from app.api.routes.test_routes import *
 
-# broker = Broker(brokerConfig.url)
-# broker.create_all()
-# broker.run()
 
-# @app.on_event("shutdown")
-# def shutdown_event():
-#     session.close()
+from app.api.sqlalchemy_models.db import engine
+from app.api.sqlalchemy_models.models import Base
+
+@app.on_event("startup")
+async def startup():
+    if environmentSettings.ENV == 'DEV':
+        print('setup')
+        try:
+            async with engine.begin() as conn:
+                # await conn.run_sync(Base.metadata.drop_all)
+                await conn.run_sync(Base.metadata.create_all)
+        except:
+            ...

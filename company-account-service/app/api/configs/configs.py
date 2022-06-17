@@ -6,7 +6,7 @@ class EnvironmentSettings(BaseSettings):
     jwt_algorithm : str = "HS256"
     jwt_exp : int = 600
     local_run : bool = False
-    database_url : str = "mysql+pymysql://doadmin:x22jBz6RtDVLTxY1@company-account-service-do-user-10220099-0.b.db.ondigitalocean.com:25060/defaultdb"
+    database_url : str = "postgresql+asyncpg://test:test@localhost:5433/"
     queue_broker_url : str = ""
     ENV : str = ""
 

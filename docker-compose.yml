@@ -2,16 +2,17 @@ version: "3.9"  # optional since v1.27.0
 services:
   company-account-service:
     build : 
-      context: ..
+      context: .
       dockerfile: company-account-service/Dockerfile
     ports:
       - "8000:8080"
     environment:
       ENV: DEV
-      database_url : sqlite:///test.sqlite
+      # database_url : sqlite:///test.sqlite
+      database_url : postgresql+asyncpg://test:test@localhost:5432/test
   company-device-service:
     build : 
-      context: ..
+      context: .
       dockerfile: company-device-service/Dockerfile
     ports:
       - "8001:8080"
@@ -20,5 +21,9 @@ services:
       mongo_database_url : mongodb://localhost:27017/
   mongo:
     image : mongo:latest
-  rabbit:
-    image : rabbitmq:3
+  postgres:
+    image : postgres:latest
+    environment: 
+      POSTGRES_USER : test
+      POSTGRES_PASSWORD : test
+    

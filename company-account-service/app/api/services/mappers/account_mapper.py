@@ -6,7 +6,7 @@ def sqlaccount_to_account_info(sqlaccount : SQLAccount) -> AccountInfo:
     account = AccountInfo.construct()
     account.email = sqlaccount.email
     account.company_id = sqlaccount.company_id
-    account.id = sqlaccount.id
+    account.id = sqlaccount.account_id
     account.permission = sqlpermissions_to_permissions(sqlaccount.permissions)
     return account
 

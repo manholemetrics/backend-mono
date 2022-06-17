@@ -3,6 +3,7 @@ from app.api.models.models import Measurements, Response
 from schemas.device_mongo_models.device_models import MongoDevice, MongoDeviceDataEntry
 import time
 
+# TODO should send back information for this device
 @app.post('/measurements', response_model=Response, tags=["Measurements"])
 async def post_measurements(measurement : Measurements) -> Response:
     response = Response.construct()

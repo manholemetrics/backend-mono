@@ -3,12 +3,13 @@ service_name="company-account-service"
 source ./env/bin/activate
 
 start_containers(){
-    sudo docker run -it --name ${service_name}-rabbitmq-local -p 5672:5672 -p 15672:15672 -p 1883:1883 -p 15675:15675 -d rabbitmq:3
+    # sudo docker run -it --name ${service_name}-rabbitmq-local -p 5672:5672 -p 15672:15672 -p 1883:1883 -p 15675:15675 -d rabbitmq:3
+    docker run --name test-postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -p 6021:5432 -d postgres
 }
 
 remove_containers(){
-    sudo docker stop ${service_name}-rabbitmq-local 2> /dev/null
-    sudo docker rm --volumes ${service_name}-rabbitmq-local 2> /dev/null
+    sudo docker stop test-postgres 2> /dev/null
+    sudo docker rm --volumes test-postgres 2> /dev/null
 }
 
 
@@ -16,6 +17,8 @@ echo "----------------------"
 echo "Exporting Variables"
 #Application variables 
 export JWT_SECRET=secret
+export ENV=DEV
+export database_url="postgresql+asyncpg://test:test@localhost:6021/test"
 #export DATABASE_URL=sqlite:///test.sqlite
 
 
@@ -25,7 +28,7 @@ echo "Starting Containers"
 remove_containers
 #Start Containers
 start_containers
-
+sleep 5
 echo "----------------------"
 echo "Starting Service"
 uvicorn app.api.main:app --reload --port 8000
