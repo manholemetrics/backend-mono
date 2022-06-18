@@ -21,15 +21,13 @@ origins = [
     "https://dashboard-deploy-h3gpr.ondigitalocean.app",
 ]
 
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.on_event("startup")
 async def app_init():

@@ -9,18 +9,20 @@ class DeviceSearchFilter(BaseModel):
     warning_level : Optional[int] = Field(None,description="filter for devices with this warning level")
     start_index : int = Field(None, description="start index for list of devices")
     end_index : int = Field(None, description="end index for list of devices")
+    pinned : bool = Field(False, description="enables only showing pinned devices")
 
 class Device(BaseModel):
     device_id : str
     latitude : float
     longitude : float 
     warning_level_height_mm : int
+    comments : list[str] = []
+    pinned : bool
+    
 
 class DeviceInfo(Device):
     creation_date : int = Field(description="creation date in unix time seconds")
     warning_level : str
-    comments : list[str] = []
-    pinned : bool
     installation_comment : str
 
 class Measurement(BaseModel):

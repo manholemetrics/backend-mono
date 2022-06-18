@@ -23,6 +23,7 @@ from typing import Optional, Tuple
 from pydantic import BaseModel
 from beanie import Document, Indexed, init_beanie
 import asyncio, motor
+import pymongo
 
 class GeoJson2DPoint(BaseModel):
     type: str = "Point"
@@ -50,6 +51,12 @@ class MongoDevice(Document):
     # comments made on the device
     comments : list[str]
     pinned : bool = False
+    
+    class Collection:
+        name = "places"
+        indexes = [
+            [("location", pymongo.GEOSPHERE)],  # GEO index
+        ]
     
     
 

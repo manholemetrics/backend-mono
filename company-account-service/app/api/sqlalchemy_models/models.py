@@ -16,7 +16,7 @@ class SQLCompany(Base):
 class SQLAccount(Base):
     __tablename__ = 'sqlaccounts'
     account_id = Column(Integer, primary_key=True, autoincrement=True)
-    permissions = relationship("SQLPermissions", uselist=False, backref="account")
+    permissions = relationship("SQLPermissions", uselist=False, backref="account", cascade = "all, delete, delete-orphan" )
     company_id = Column(Integer, ForeignKey('sqlcompanies.company_id'))
     email = Column(String(100))
     password_hash = Column(String(100))

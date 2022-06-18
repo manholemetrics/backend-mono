@@ -11,8 +11,8 @@ class InvalidAccessToken(Exception):
 async def invalid_token_exception_handler(request: Request, exc: InvalidAccessToken):
     #TODO add logging code
     return JSONResponse(
-        status_code=404,
-        content={},
+        status_code=401,
+        content={"message":"invalid access token"},
     )
 
 class InvalidPermissionException(Exception):

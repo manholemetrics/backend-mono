@@ -1,6 +1,6 @@
 from app.api.sqlalchemy_models.models import SQLCompany, SQLAccount, SQLPermissions
 from app.api.sqlalchemy_models.db import engine, async_session_maker
-from sqlalchemy.orm import sessionmaker, selectinload 
+from sqlalchemy.orm import sessionmaker, selectinload , subqueryload, joinedload
 from sqlalchemy.future import select
 
 Session = sessionmaker(bind=engine)
@@ -11,8 +11,12 @@ class SQLAccountManger:
     @staticmethod
     async def get_SQLAccount(account_id : int, company_id : int) -> SQLAccount:
         async with async_session_maker() as session:
-            company = await session.query(SQLAccount).filter_by(id = account_id, company_id = company_id).first()
-        return company
+            account_id = int(account_id)
+            company_id = int(company_id)
+            account = (await session.execute(select(SQLAccount).options(selectinload(SQLAccount.permissions)).where(SQLAccount.account_id == account_id, SQLAccount.company_id == company_id).limit(1)))
+            if account is not None: 
+                account = account.scalars().first()
+        return account
 
     @staticmethod
     async def get_SQLAccount_with_email(email : int) -> SQLAccount:
@@ -21,8 +25,6 @@ class SQLAccountManger:
             account = (await session.execute(select(SQLAccount).options(selectinload(SQLAccount.permissions)).where(SQLAccount.email == email).limit(1)))
             if account is not None: 
                 account = account.scalars().first()
-                if account is not None:
-                    print(account.permissions)
             print(account)
         return account 
 
@@ -36,8 +38,9 @@ class SQLAccountManger:
 
     @staticmethod
     async def delete_SQLAccount(account : SQLAccount):
+        print('deleeting')
         async with async_session_maker() as session:
-            session.delete(account)
+            await session.delete(account)
             await session.commit()
 
 class SQLCompanyManager:
@@ -45,7 +48,10 @@ class SQLCompanyManager:
     @staticmethod
     async def get_SQLCompany(company_id : int) -> SQLCompany:
         async with async_session_maker() as session:
-            company = await session.query(SQLCompany).filter_by(id = company_id).first()
+            company_id = int(company_id)
+            company = (await session.execute(select(SQLCompany).options(joinedload(SQLCompany.accounts).subqueryload(SQLAccount.permissions)).where(SQLCompany.company_id == company_id).limit(1)))
+            if company is not None: 
+                company = company.scalars().first()
         return company
 
     @staticmethod
