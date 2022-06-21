@@ -15,8 +15,8 @@ class Payload(BaseModel):
     
 
 @app.post('/measurements', response_model=str, tags=["Measurements"])
-async def post_measurements(payload : Payload = Body(...)) -> str:
-    mongo_device = await MongoDevice.get(payload.device_id)
+async def post_measurements(message : Payload = Body(...)) -> str:
+    mongo_device = await MongoDevice.get(message.device_id)
     payload = json.loads(str(RSA.importKey(mongo_device.decryption_key).decrypt(payload.payload)))
     
     for time_s, distance_mm in zip(payload['time_s'], payload['distance_mm']):
@@ -36,7 +36,7 @@ async def post_measurements(payload : Payload = Body(...)) -> str:
     }
     
     # sends a task request to process average task updates
-    process_average_measurements_task(payload.device_id)
+    process_average_measurements_task(message.device_id)
     return json.dumps(response)
 
 # need to allow for tasks that calculate the weekly and average routes
