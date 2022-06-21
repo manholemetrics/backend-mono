@@ -51,6 +51,9 @@ class MongoDevice(Document):
     # comments made on the device
     comments : list[str]
     pinned : bool = False
+    decryption_key : str = ''
+    sleep_time_s : int = 15*60*60
+    transmit_time_s : int = 24*60*60
     
     class Collection:
         name = "places"
