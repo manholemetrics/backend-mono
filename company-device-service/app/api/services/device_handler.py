@@ -31,6 +31,7 @@ def mongo_device_to_device_data(mongo_device : MongoDevice, measurement_period_t
     device.comments = mongo_device.comments
     device.installation_comment = mongo_device.installation_comment
     device.pinned = mongo_device.pinned
+    device.measurement_period_type = measurement_period_type
     return device
 
 def mongo_device_to_device_info(mongo_device : MongoDevice) -> DeviceInfo:

@@ -31,6 +31,7 @@ class Measurement(BaseModel):
 
 class DeviceData(DeviceInfo):
     measurements : List[Measurement]
+    measurement_period_type : str = ''
 
 class Devices(BaseModel):
     devices : List[DeviceInfo]
