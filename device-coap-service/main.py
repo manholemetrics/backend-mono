@@ -11,6 +11,7 @@ import requests
 class Update(resource.Resource):
     
     async def render_get(self, request):
+        print(request)
         # TODO design
         # message = json.loads(request.payload)
         return aiocoap.Message(payload='')
@@ -18,6 +19,9 @@ class Update(resource.Resource):
 class Measurements(resource.Resource):
     
     async def render_post(self, request):
+        print('received message')
+        print(request)
+        print(request.payload)
         message = json.loads(request.payload)
         response = requests.post('url', json=message)
         response = response.text
@@ -31,6 +35,8 @@ class Measurements(resource.Resource):
 async def main():
     # Resource tree creation
     root = resource.Site()
+    root.add_resource(['.well-known', 'core'],
+            resource.WKCResource(root.get_resources_as_linkheader))
     root.add_resource(['update'], Update())
     root.add_resource(['measurements'], Measurements())
 
