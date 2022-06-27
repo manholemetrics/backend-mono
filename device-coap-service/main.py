@@ -19,12 +19,11 @@ class Update(resource.Resource):
 class Measurements(resource.Resource):
     
     async def render_post(self, request):
-        print('received message')
-        print(request)
-        print(request.payload)
-        message = json.loads(request.payload)
-        response = requests.post('url', json=message)
-        response = response.text
+        message = json.loads(request.payload.decode("utf-8") )
+        print(message)
+        # response = requests.post('url', json=message)
+        # response = response.text
+        response = 'received'
         return aiocoap.Message(payload=response)
         
 # logging setup
