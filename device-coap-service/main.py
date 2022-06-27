@@ -24,7 +24,7 @@ class Measurements(resource.Resource):
         print(message)
         # response = requests.post('url', json=message)
         # response = response.text
-        response = 'received'
+        response = bytes('received','utf8')
         return aiocoap.Message(payload=response)
         
 # logging setup
