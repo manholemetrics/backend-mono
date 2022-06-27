@@ -19,7 +19,8 @@ class Update(resource.Resource):
 class Measurements(resource.Resource):
     
     async def render_post(self, request):
-        message = json.loads(request.payload.decode("utf-8") )
+        print(request.payload)
+        message = json.loads(request.payload)
         print(message)
         # response = requests.post('url', json=message)
         # response = response.text
