@@ -4,6 +4,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Boolean, Integer, String
 
+# TODO add in device setup requests
+#   - should contain location information and date information and completion status and device id if completed
+
 Base = declarative_base()
 # metadata = Base.metadata
 
